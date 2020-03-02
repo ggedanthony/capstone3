@@ -2,7 +2,7 @@ const User = require("../models/users");
 const express = require("express"); 
 const router = express.Router(); 
 const bcrypt = require("bcryptjs");
-
+const auth = require("../middleware/auth")
 
 //create a user
 router.post("/", async (req,res) => {
@@ -35,6 +35,11 @@ router.get("/:id", async(req,res)=>{
 	}
 })
 
+
+
+
+
+
 //login
 router.post("/login", async(req,res) => {
 	try{
@@ -54,6 +59,9 @@ router.post("/login", async(req,res) => {
 		console.log(e)
 	}
 })
+
+
+
 
 
 
