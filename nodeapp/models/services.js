@@ -11,11 +11,17 @@ const servicesSchema = new Schema(
 				type: String,
 				required: true
 			},
+			price:
+			{
+				type: Number,
+				required: true
+
+			},
 			description:
 			{
 				type: String,
 				required: true,
-				maxlength:100,
+				maxlength:1000,
 				required: true
 				
 			},
