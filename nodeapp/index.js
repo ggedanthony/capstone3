@@ -39,9 +39,7 @@ app.use("/reservations", reservationsRoute);
 
 
 
-
-
-
-app.listen(4000, () => {
-	console.log("Now listening to port 4000")
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
+	console.log(`Now listening to port ${port}`)
 })
