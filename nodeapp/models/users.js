@@ -6,6 +6,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+
 const userSchema = new Schema(
 		{
 			firstName:
@@ -36,7 +37,8 @@ const userSchema = new Schema(
 				required: true,
 				trim: true,
 				unique: true,
-				maxlength: 30,
+				// index: true,
+				maxlength: 10,
 				validate(value){
 					if(validator.isLength(value) > 10){
 						throw new Error("Too many characters!")
@@ -64,13 +66,34 @@ const userSchema = new Schema(
 					}
 				}
 			},
+			contact:
+			{
+				type: String,
+				required: true,
+				validate(value){
+					if(validator.isLength(value) === 11){
+						throw new Error("Invalid Number!")
+					}
+				}
+			},
+			birthday:
+			{
+				type: String,
+				required: true
+			},
 			password:
 			{
 				type: String,
 				required: true,
 				minlength: [8, "Password Too Weak!"]
 			},
-			profilePic:
+			active:
+			{
+				type: Boolean,
+				required: true,
+				default: true
+			},
+			profPic:
 			{
 				type: Buffer,
 				default: undefined
@@ -106,7 +129,7 @@ userSchema.methods.generateAuthToken = async function(){
 	const token = jwt.sign({_id: user._id.toString()}, "secret", {expiresIn: '5 days'})
 
 	//saving token to db
-	user.token = user.tokens.concat({token})
+	user.tokens = user.tokens.concat({token})
 	await user.save();
 	return token;
 }
@@ -116,12 +139,31 @@ userSchema.methods.toJSON = function() {
 	const userObj = user.toObject();
 
 	delete userObj.password;
-	delete userObj.profilePic;
 	delete userObj.tokens;
-
+	// delete userObj.profPic;
 	return userObj;
 }
 
+//SET THE RELATIONSHIP BETWEEN User AND reservation
+userSchema.virtual("reservations", {
+	ref: "Reservation", 
+	localField: "_id",
+	foreignField: "userId"
+})
+
+//SET THE RELATIONSHIP BETWEEN User AND reservation
+userSchema.virtual("cars", {
+	ref: "Car", 
+	localField: "_id",
+	foreignField: "userId"
+})
+
+//SET THE RELATIONSHIP BETWEEN User AND reservation
+userSchema.virtual("reviews", {
+	ref: "Review", 
+	localField: "_id",
+	foreignField: "userId"
+})
 
 userSchema.plugin(uniqueValidator);
 const User = mongoose.model("User", userSchema);

@@ -25,6 +25,11 @@ const servicesSchema = new Schema(
 				required: true
 				
 			},
+			time:
+			{
+				type: String,
+				required: true
+			},
 			active:
 			{
 				type: Boolean,
@@ -36,5 +41,13 @@ const servicesSchema = new Schema(
 	}
 	);
 
+//SET THE RELATIONSHIP BETWEEN User AND reservation
+servicesSchema.virtual("reservations", {
+	ref: "Reservation", 
+	localField: "_id",
+	foreignField: "serviceId"
+})
+
+
 //Export the Model
-module.exports = mongoose.model("Services", servicesSchema);
+module.exports = mongoose.model("Service", servicesSchema);

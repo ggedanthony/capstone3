@@ -1,3 +1,4 @@
 {
-	"mongoURI": "mongodb+srv://geddie123:geddie123@washme-krxrv.mongodb.net/test?retryWrites=true&w=majority"
+	"mongoURI": "mongodb+srv://ged123:ged123@washme-krxrv.mongodb.net/test?retryWrites=true&w=majority"
 }
+

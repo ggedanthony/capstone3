@@ -10,7 +10,7 @@ const connectToRemoteDB = async () => {
 				useCreateIndex: true
 		})
 		console.log("MongoDB Atlas is connected")
-	}catch(e){
+	} catch(e){
 		console.log(e)
 	}
 }
